@@ -2,7 +2,7 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>😶‍🌫🎉دیگه اومدم دیگه</title>
+  <title>سورپرایز 🎉</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/@fontsource/vazir@latest/index.css" rel="stylesheet">
   <style>
@@ -29,6 +29,7 @@
       color: #333;
       font-size: 2rem;
       margin-bottom: 1rem;
+      text-align: center;
     }
 
     button {
@@ -73,6 +74,7 @@
       font-size: 1.2rem;
       margin-top: 1rem;
       color: #444;
+      text-align: center;
     }
 
     @media (max-width: 600px) {
@@ -85,7 +87,6 @@
       }
     }
 
-    /* دارک مود */
     .dark-mode {
       background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
     }
@@ -100,9 +101,9 @@
   </style>
 </head>
 <body>
-  <h1> 🌹🥲با من داستان میشی؟</h1>
-  <button id="celebrateBtn">😇🥰چرا که نه؟</button>
-  <button id="escapeBtn">😒💔معلومه که نه</button>
+  <h1>🌹🥲 با من داستان میشی؟</h1>
+  <button id="celebrateBtn">😇🥰 چرا که نه؟</button>
+  <button id="escapeBtn">😒💔 معلومه که نه</button>
   <button id="toggleMode">🌙 دارک مود</button>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -112,26 +113,28 @@
     const toggleMode = document.getElementById("toggleMode");
     const body = document.body;
 
-    // بررسی حالت ذخیره‌شده هنگام بارگذاری
+    // حالت ذخیره‌شده
     if (localStorage.getItem("mode") === "dark") {
       body.classList.add("dark-mode");
       toggleMode.textContent = "☀️ لایت مود";
     }
 
-    // دکمه فرار هی جاش عوض میشه
-  escapeBtn.addEventListener("mouseover", () => {
-  const padding = 50; // فاصله امن از لبه‌ها
-  const maxX = window.innerWidth - escapeBtn.offsetWidth - padding;
-  const maxY = window.innerHeight - escapeBtn.offsetHeight - padding;
-  const randomX = Math.floor(Math.random() * maxX);
-  const randomY = Math.floor(Math.random() * maxY);
+    // دکمه فرار برای دسکتاپ و موبایل
+    function moveButton() {
+      const padding = 50;
+      const maxX = window.innerWidth - escapeBtn.offsetWidth - padding;
+      const maxY = window.innerHeight - escapeBtn.offsetHeight - padding;
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+      escapeBtn.style.position = "absolute";
+      escapeBtn.style.left = randomX + "px";
+      escapeBtn.style.top = randomY + "px";
+    }
 
-  escapeBtn.style.position = "absolute";
-  escapeBtn.style.left = randomX + "px";
-  escapeBtn.style.top = randomY + "px";
-});
+    escapeBtn.addEventListener("mouseover", moveButton); // دسکتاپ
+    escapeBtn.addEventListener("touchstart", moveButton); // موبایل
 
-    // دکمه جشن افکت و عکس میاره
+    // دکمه جشن
     celebrateBtn.addEventListener("click", () => {
       confetti({
         particleCount: 200,
@@ -139,15 +142,15 @@
         origin: { y: 0.6 }
       });
 
-      document.body.innerHTML =` 
-        <h1> 😍🔥🥳داستان شدیییم</h1>
-        <img src="https://images.unsplash.com/photo-1602526216436-6e1b1b2f3d2e?auto=format&fit=crop&w=800&q=80" alt="گل رز قرمز">
-        <p> 😜🥰🫀🌹داستانمون مبارک </p>
+      document.body.innerHTML = `
+        <h1>😍🔥🥳 داستان شدیییم</h1>
+        <img src="rose.jpg" alt="گل رز قرمز">
+        <p>😜🥰🫀🌹 داستانمون مبارک</p>
         <button onclick="location.reload()" style="margin-top:2rem; padding:1rem 2rem; font-size:1rem; border:none; border-radius:12px; background:#007bff; color:white;">🔁 دوباره ببین</button>
       `;
       body.className = localStorage.getItem("mode") === "dark" ? "dark-mode" : "";
-    }); 
-    // سوییچ بین دارک و لایت مود با ذخیره‌سازی
+    });
+    // دارک مود
     toggleMode.addEventListener("click", () => {
       if (body.classList.contains("dark-mode")) {
         body.classList.remove("dark-mode");
@@ -162,4 +165,3 @@
   </script>
 </body>
 </html>
-
