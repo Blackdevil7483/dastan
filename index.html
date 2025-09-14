@@ -2,7 +2,7 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>😶‍🌫🎉تبریک زیادی</title>
+  <title>😶‍🌫🎉دیگه اومدم دیگه</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/@fontsource/vazir@latest/index.css" rel="stylesheet">
   <style>
@@ -119,17 +119,17 @@
     }
 
     // دکمه فرار هی جاش عوض میشه
-    escapeBtn.addEventListener("mouseover", () => {
-      const maxX = window.innerWidth - escapeBtn.offsetWidth - 20;
-      const maxY = window.innerHeight - escapeBtn.offsetHeight - 20;
-      const randomX = Math.floor(Math.random() * maxX);
-      const randomY = Math.floor(Math.random() * maxY);
-      escapeBtn.style.left = "auto";
-      escapeBtn.style.top = "auto";
-      escapeBtn.style.position = "absolute";
-      escapeBtn.style.left = randomX + "px";
-      escapeBtn.style.top = randomY + "px";
-    });
+  escapeBtn.addEventListener("mouseover", () => {
+  const padding = 50; // فاصله امن از لبه‌ها
+  const maxX = window.innerWidth - escapeBtn.offsetWidth - padding;
+  const maxY = window.innerHeight - escapeBtn.offsetHeight - padding;
+  const randomX = Math.floor(Math.random() * maxX);
+  const randomY = Math.floor(Math.random() * maxY);
+
+  escapeBtn.style.position = "absolute";
+  escapeBtn.style.left = randomX + "px";
+  escapeBtn.style.top = randomY + "px";
+});
 
     // دکمه جشن افکت و عکس میاره
     celebrateBtn.addEventListener("click", () => {
@@ -141,7 +141,7 @@
 
       document.body.innerHTML =` 
         <h1> 😍🔥🥳داستان شدیییم</h1>
-        <img src="https://golnikrah.com/wp-content/uploads/2023/07/red-rose-bouquet.jpg" alt="گل رز عاشقانه">
+        <img src="https://images.unsplash.com/photo-1602526216436-6e1b1b2f3d2e?auto=format&fit=crop&w=800&q=80" alt="گل رز قرمز">
         <p> 😜🥰🫀🌹داستانمون مبارک </p>
         <button onclick="location.reload()" style="margin-top:2rem; padding:1rem 2rem; font-size:1rem; border:none; border-radius:12px; background:#007bff; color:white;">🔁 دوباره ببین</button>
       `;
@@ -162,3 +162,4 @@
   </script>
 </body>
 </html>
+
