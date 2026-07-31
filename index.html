@@ -217,9 +217,145 @@
     #toggleMode{ width:38px; height:38px; font-size:1rem; top:12px; left:12px; }
   }
 
+  /* ---------- envelope intro ---------- */
+  .envelope-wrap{
+    position:fixed;
+    inset:0;
+    z-index:50;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:1.4rem;
+    cursor:pointer;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(201,162,39,.18), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(226,99,125,.20), transparent 50%),
+      linear-gradient(160deg, var(--paper), var(--paper-2));
+    transition:opacity .6s ease;
+  }
+  body.dark-mode .envelope-wrap{
+    background:linear-gradient(160deg, #1c1017, #2a1420);
+  }
+  .envelope-wrap.hide{ opacity:0; pointer-events:none; }
+
+  .envelope{
+    position:relative;
+    width:220px;
+    height:150px;
+    perspective:600px;
+  }
+  .envelope-back{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(160deg, var(--wine), var(--wine-dark));
+    border-radius:10px;
+    box-shadow:0 20px 40px -15px rgba(122,31,61,.5);
+  }
+  .envelope-letter{
+    position:absolute;
+    left:12px;
+    right:12px;
+    top:-46px;
+    height:110px;
+    background:var(--paper);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.8rem;
+    box-shadow:0 8px 18px -8px rgba(0,0,0,.35);
+    opacity:0;
+    transform:translateY(20px);
+    transition:transform .7s cubic-bezier(.2,.8,.25,1), opacity .5s ease;
+    z-index:1;
+  }
+  .envelope-flap{
+    position:absolute;
+    top:0; left:0;
+    width:0; height:0;
+    border-left:110px solid transparent;
+    border-right:110px solid transparent;
+    border-top:76px solid var(--wine-dark);
+    transform-origin:top center;
+    transition:transform .7s cubic-bezier(.3,.85,.4,1.15);
+    z-index:3;
+    filter:drop-shadow(0 6px 8px rgba(0,0,0,.25));
+  }
+  .envelope-seal{
+    position:absolute;
+    top:38px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:4;
+    font-size:1.5rem;
+    transition:opacity .4s ease, transform .4s ease;
+  }
+  .envelope.open .envelope-flap{ transform:rotateX(180deg); }
+  .envelope.open .envelope-seal{ opacity:0; transform:translateX(-50%) scale(.4); }
+  .envelope.open .envelope-letter{ opacity:1; transform:translateY(-78px); }
+
+  .envelope-hint{
+    font-size:.95rem;
+    color:var(--wine);
+    opacity:.75;
+    animation:pulseHint 1.8s ease-in-out infinite;
+  }
+  body.dark-mode .envelope-hint{ color:var(--gold-light); }
+  @keyframes pulseHint{ 0%,100%{opacity:.55;} 50%{opacity:1;} }
+
+  @media (prefers-reduced-motion: reduce){
+    .envelope-wrap{ display:none; }
+  }
+
+  /* typewriter cursor */
+  h1:not(.done)::after{
+    content:"|";
+    margin-right:2px;
+    animation:blink 1s step-start infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* card reveal state (shown after envelope opens) */
+  .card{ opacity:0; pointer-events:none; }
+  .card.show{
+    opacity:1;
+    pointer-events:auto;
+    animation:riseIn .8s cubic-bezier(.2,.8,.2,1) both;
+  }
+
+  /* music toggle, mirrors the theme toggle on the opposite corner */
+  #musicToggle{
+    position:fixed;
+    top:18px;
+    right:18px;
+    z-index:30;
+    background:rgba(255,255,255,.55);
+    border:1px solid rgba(201,162,39,.4);
+    color:var(--wine);
+    width:44px;
+    height:44px;
+    padding:0;
+    border-radius:50%;
+    font-size:1.1rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 6px 16px -8px rgba(0,0,0,.35);
+  }
+  body.dark-mode #musicToggle{
+    background:rgba(40,20,30,.6);
+    color:var(--gold-light);
+    border-color:rgba(230,200,105,.3);
+  }
+  #musicToggle:hover{ transform:scale(1.08); }
+
+  @media (max-width:480px){
+    #musicToggle{ width:38px; height:38px; font-size:1rem; top:12px; right:12px; }
+  }
+
   @media (prefers-reduced-motion: reduce){
     .petal{ animation:none; display:none; }
-    .card{ animation:none; }
     button{ transition:none; }
   }
 </style>
@@ -227,6 +363,20 @@
 <body>
 
   <button id="toggleMode" aria-label="تغییر تم">🌙</button>
+  <button id="musicToggle" aria-label="پخش موزیک">🎵</button>
+  <audio id="bgMusic" loop preload="none">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="envelope-wrap" id="envelopeWrap">
+    <div class="envelope" id="envelope">
+      <span class="envelope-letter">💌</span>
+      <span class="envelope-flap"></span>
+      <span class="envelope-seal">🤍</span>
+      <div class="envelope-back"></div>
+    </div>
+   
+  </div>
 
   <div class="card" id="card">
     <span class="corner tl"><svg viewBox="0 0 64 64"><path d="M2 2c20 0 30 4 34 10 3-8 14-10 26-10-10 6-16 12-18 22-2-10-8-16-18-18-2 10-6 16-14 18C16 16 10 8 2 2z"/></svg></span>
@@ -250,6 +400,13 @@
     const celebrateBtn = document.getElementById("celebrateBtn");
     const card = document.getElementById("card");
     const btnRow = document.getElementById("btnRow");
+    const envelopeWrap = document.getElementById("envelopeWrap");
+    const envelope = document.getElementById("envelope");
+    const musicToggle = document.getElementById("musicToggle");
+    const bgMusic = document.getElementById("bgMusic");
+    const headline = document.getElementById("headline");
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // ---------- dark mode ----------
     if (localStorage.getItem("mode") === "dark") {
@@ -263,7 +420,6 @@
     });
 
     // ---------- ambient petals ----------
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!reduceMotion) {
       const petals = ["🌹","🌸","🥀"];
       for (let i = 0; i < 10; i++) {
@@ -277,6 +433,67 @@
         document.body.appendChild(p);
       }
     }
+
+    // ---------- typewriter headline ----------
+    function typewrite(el, text, speed) {
+      el.textContent = "";
+      el.classList.remove("done");
+      const chars = Array.from(text);
+      let i = 0;
+      (function tick() {
+        if (i < chars.length) {
+          el.textContent += chars[i];
+          i++;
+          setTimeout(tick, speed);
+        } else {
+          el.classList.add("done");
+        }
+      })();
+    }
+
+    // ---------- envelope intro ----------
+    const fullHeadline = headline.textContent;
+    let envelopeOpened = false;
+
+    function revealCard() {
+      envelopeWrap.classList.add("hide");
+      card.classList.add("show");
+      typewrite(headline, fullHeadline, 45);
+      window.setTimeout(() => envelopeWrap.remove(), 650);
+    }
+
+    function openEnvelope() {
+      if (envelopeOpened) return;
+      envelopeOpened = true;
+      envelope.classList.add("open");
+      window.setTimeout(revealCard, 850);
+    }
+
+    if (reduceMotion) {
+      // skip the animated intro entirely for users who asked for less motion
+      envelopeWrap.remove();
+      card.classList.add("show");
+      headline.textContent = fullHeadline;
+      headline.classList.add("done");
+    } else {
+      headline.textContent = "";
+      envelopeWrap.addEventListener("click", openEnvelope);
+    }
+
+    // ---------- background music ----------
+    let musicPlaying = false;
+    musicToggle.addEventListener("click", () => {
+      if (musicPlaying) {
+        bgMusic.pause();
+        musicToggle.textContent = "🎵";
+      } else {
+        bgMusic.play().catch(() => {
+          // autoplay/policy restrictions or missing file — fail quietly
+        });
+        musicToggle.textContent = "🔇";
+      }
+      musicPlaying = !musicPlaying;
+    });
 
     // ---------- escape button (bug-fixed) ----------
     // Root cause of the old bug: switching the button from `static` to
