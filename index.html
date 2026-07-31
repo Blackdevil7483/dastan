@@ -481,18 +481,24 @@
     }
 
     // ---------- background music ----------
-    let musicPlaying = true;
-    musicToggle.addEventListener("click", () => {
-      if (musicPlaying) {
-        bgMusic.pause();
+    let musicPlaying = false;
+    function playMusic() {
+      bgMusic.play().then(() => {
+        musicPlaying = true;
         musicToggle.textContent = "🔇";
-      } else {
-        bgMusic.play().catch(() => {
-          // autoplay/policy restrictions or missing file — fail quietly
-        });
-        musicToggle.textContent =  "🎵";
-      }
-      musicPlaying = !musicPlaying;
+      }).catch(() => {
+        // browser blocked it (no user gesture yet, or file missing) — stay silent, keep the button usable
+        musicPlaying = false;
+        musicToggle.textContent = "🎵";
+      });
+    }
+    function pauseMusic() {
+      bgMusic.pause();
+      musicPlaying = false;
+      musicToggle.textContent = "🎵";
+    }
+    musicToggle.addEventListener("click", () => {
+      musicPlaying ? pauseMusic() : playMusic();
     });
 
     // ---------- escape button (bug-fixed) ----------
