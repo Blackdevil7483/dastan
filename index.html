@@ -481,16 +481,16 @@
     }
 
     // ---------- background music ----------
-    let musicPlaying = false;
+    let musicPlaying = true;
     musicToggle.addEventListener("click", () => {
       if (musicPlaying) {
         bgMusic.pause();
-        musicToggle.textContent = "🎵";
+        musicToggle.textContent = "🔇";
       } else {
         bgMusic.play().catch(() => {
           // autoplay/policy restrictions or missing file — fail quietly
         });
-        musicToggle.textContent = "🔇";
+        musicToggle.textContent =  "🎵";
       }
       musicPlaying = !musicPlaying;
     });
