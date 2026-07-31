@@ -24,9 +24,13 @@
 
   html,body{margin:0;padding:0;}
 
+  html{ height:-webkit-fill-available; }
+
   body{
     font-family:"Vazirmatn", sans-serif;
     min-height:100vh;
+    min-height:100dvh;
+    min-height:-webkit-fill-available;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -36,7 +40,8 @@
       radial-gradient(circle at 15% 20%, rgba(201,162,39,.18), transparent 45%),
       radial-gradient(circle at 85% 80%, rgba(226,99,125,.20), transparent 50%),
       linear-gradient(160deg, var(--paper), var(--paper-2));
-    overflow:hidden;
+    overflow-x:hidden;
+    overflow-y:auto;
     position:relative;
     transition:background .6s ease, color .6s ease;
   }
@@ -179,10 +184,18 @@
   #toggleMode:hover{ transform:scale(1.08); }
 
   img{
-    max-width:100%;
+    display:block;
+    width:100%;
+    max-height:52vh;
+    object-fit:cover;
+    object-position:center;
     border-radius:16px;
     margin-top:1.6rem;
     box-shadow:0 14px 30px -12px rgba(0,0,0,.4);
+  }
+
+  @media (min-width:700px){
+    img{ max-height:400px; }
   }
 
   p.reveal{
@@ -199,7 +212,9 @@
   }
 
   @media (max-width:480px){
-    .card{ padding:2.4rem 1.4rem 2rem; }
+    .card{ padding:2.2rem 1.1rem 1.8rem; }
+    .corner{ width:32px; height:32px; }
+    #toggleMode{ width:38px; height:38px; font-size:1rem; top:12px; left:12px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -291,7 +306,7 @@
       const minX = pad - homeLeft;
       const maxX = window.innerWidth - btnRect.width - pad - homeLeft;
       const minY = pad - homeTop;
-      const maxY = window.innerHeight - btnRect.height - pad - homeLeft > 0
+      const maxY = window.innerHeight - btnRect.height - pad - homeTop > 0
         ? window.innerHeight - btnRect.height - pad - homeTop
         : minY;
 
@@ -343,7 +358,7 @@
 
       card.innerHTML = `
         <h1>😍🔥🥳 داستان هم شدیییم</h1>
-        <img src="dastan2.jpg" alt="آفتابگردون" onerror="this.style.display='none'">
+        <img src="dastan2.jpg" alt="آفتابگردون" loading="lazy" decoding="async" onerror="this.style.display='none'">
         <p class="reveal">🥰🫀🌹 داستانمون مبارک</p>
         <button class="again-btn" onclick="location.reload()">🔁 دوباره ببین</button>
       `;
