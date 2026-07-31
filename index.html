@@ -375,7 +375,7 @@
       <span class="envelope-seal">🤍</span>
       <div class="envelope-back"></div>
     </div>
-   
+    
   </div>
 
   <div class="card" id="card">
@@ -451,35 +451,6 @@
       })();
     }
 
-    // ---------- envelope intro ----------
-    const fullHeadline = headline.textContent;
-    let envelopeOpened = false;
-
-    function revealCard() {
-      envelopeWrap.classList.add("hide");
-      card.classList.add("show");
-      typewrite(headline, fullHeadline, 45);
-      window.setTimeout(() => envelopeWrap.remove(), 650);
-    }
-
-    function openEnvelope() {
-      if (envelopeOpened) return;
-      envelopeOpened = true;
-      envelope.classList.add("open");
-      window.setTimeout(revealCard, 850);
-    }
-
-    if (reduceMotion) {
-      // skip the animated intro entirely for users who asked for less motion
-      envelopeWrap.remove();
-      card.classList.add("show");
-      headline.textContent = fullHeadline;
-      headline.classList.add("done");
-    } else {
-      headline.textContent = "";
-      envelopeWrap.addEventListener("click", openEnvelope);
-    }
-
     // ---------- background music ----------
     let musicPlaying = false;
     function playMusic() {
@@ -500,6 +471,39 @@
     musicToggle.addEventListener("click", () => {
       musicPlaying ? pauseMusic() : playMusic();
     });
+
+    // ---------- envelope intro ----------
+    const fullHeadline = headline.textContent;
+    let envelopeOpened = false;
+
+    function revealCard() {
+      envelopeWrap.classList.add("hide");
+      card.classList.add("show");
+      typewrite(headline, fullHeadline, 45);
+      window.setTimeout(() => envelopeWrap.remove(), 650);
+    }
+
+    function openEnvelope() {
+      if (envelopeOpened) return;
+      envelopeOpened = true;
+      envelope.classList.add("open");
+      playMusic(); // this click is the user gesture browsers require to allow sound
+      window.setTimeout(revealCard, 850);
+    }
+
+    if (reduceMotion) {
+      // skip the animated intro entirely for users who asked for less motion
+      envelopeWrap.remove();
+      card.classList.add("show");
+      headline.textContent = fullHeadline;
+      headline.classList.add("done");
+      // no click happened here, so most browsers will still block autoplay —
+      // the 🎵 button remains as a manual fallback in this case
+      playMusic();
+    } else {
+      headline.textContent = "";
+      envelopeWrap.addEventListener("click", openEnvelope);
+    }
 
     // ---------- escape button (bug-fixed) ----------
     // Root cause of the old bug: switching the button from `static` to
