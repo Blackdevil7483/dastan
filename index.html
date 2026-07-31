@@ -1,171 +1,353 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>دیگه اومدم دیگه 🎉</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/@fontsource/vazir@latest/index.css" rel="stylesheet">
-  <style>
-    body {
-      font-family: "Vazir", sans-serif;
-      background: linear-gradient(135deg, #fdfbfb, #ebedee);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 2rem;
-      animation: fadeIn 1s ease-in;
-      transition: background 0.5s ease, color 0.5s ease;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دیگه اومدم دیگه 🎉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbf1dd;
+    --paper-2:#f4e6c8;
+    --wine:#7a1f3d;
+    --wine-dark:#571530;
+    --gold:#c9a227;
+    --gold-light:#e6c869;
+    --rose:#e2637d;
+    --ink:#2b1810;
+    --card-shadow: 0 25px 60px -20px rgba(122,31,61,.45);
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  *{box-sizing:border-box;}
 
-    h1 {
-      color: #333;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
+  html,body{margin:0;padding:0;}
 
-    button {
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      margin: 0.5rem;
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
+  body{
+    font-family:"Vazirmatn", sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:6vh 5vw;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(201,162,39,.18), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(226,99,125,.20), transparent 50%),
+      linear-gradient(160deg, var(--paper), var(--paper-2));
+    overflow:hidden;
+    position:relative;
+    transition:background .6s ease, color .6s ease;
+  }
 
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
+  body.dark-mode{
+    color:#f3e6d8;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(201,162,39,.14), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(226,99,125,.16), transparent 50%),
+      linear-gradient(160deg, #1c1017, #2a1420);
+  }
 
-    #celebrateBtn {
-      background-color: #28a745;
-      color: white;
-    }
+  /* ambient drifting petals */
+  .petal{
+    position:fixed;
+    top:-8vh;
+    font-size:1.4rem;
+    pointer-events:none;
+    opacity:.55;
+    animation:fall linear infinite;
+    user-select:none;
+    z-index:0;
+  }
+  @keyframes fall{
+    to{ transform:translateY(112vh) rotate(360deg); }
+  }
 
-    #escapeBtn {
-      background-color: #dc3545;
-      color: white;
-      position: relative;
-    }
+  /* card */
+  .card{
+    position:relative;
+    z-index:2;
+    width:min(480px, 100%);
+    background:rgba(255,250,240,.72);
+    backdrop-filter:blur(6px);
+    border-radius:28px;
+    padding:3rem 2.2rem 2.6rem;
+    text-align:center;
+    box-shadow:var(--card-shadow);
+    border:1px solid rgba(201,162,39,.35);
+    animation:riseIn .8s cubic-bezier(.2,.8,.2,1) both;
+    transition:background .6s ease, box-shadow .6s ease;
+  }
+  body.dark-mode .card{
+    background:rgba(40,20,30,.62);
+    border-color:rgba(230,200,105,.28);
+  }
 
-    #toggleMode {
-      background-color: #007bff;
-      color: white;
-    }
+  @keyframes riseIn{
+    from{ opacity:0; transform:translateY(28px) scale(.97); }
+    to{ opacity:1; transform:translateY(0) scale(1); }
+  }
 
-    img {
-      max-width: 80%;
-      border-radius: 12px;
-      margin-top: 2vh;
-    }
+  /* ornamental corners */
+  .corner{
+    position:absolute;
+    width:46px;
+    height:46px;
+    opacity:.75;
+    color:var(--gold);
+  }
+  .corner svg{ width:100%; height:100%; display:block; fill:currentColor; }
+  .corner.tl{ top:10px; right:10px; }
+  .corner.tr{ top:10px; left:10px; transform:scaleX(-1); }
+  .corner.bl{ bottom:10px; right:10px; transform:scaleY(-1); }
+  .corner.br{ bottom:10px; left:10px; transform:scale(-1,-1); }
 
-    p {
-      font-size: 1.2rem;
-      margin-top: 1rem;
-      color: #444;
-      text-align: center;
-    }
+  h1{
+    font-family:"Lalezar", sans-serif;
+    font-weight:400;
+    font-size:clamp(1.6rem, 5vw, 2.3rem);
+    line-height:1.55;
+    color:var(--wine);
+    margin:.4rem 0 1.9rem;
+    letter-spacing:.5px;
+  }
+  body.dark-mode h1{ color:var(--gold-light); }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.5rem;
-      }
-      button {
-        font-size: 1rem;
-        padding: 0.8rem 1.5rem;
-      }
-    }
+  .btn-row{
+    display:flex;
+    gap:.9rem;
+    justify-content:center;
+    flex-wrap:wrap;
+    min-height:64px; /* reserves space so nothing reflows */
+  }
 
-    .dark-mode {
-      background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
-    }
+  button{
+    font-family:"Vazirmatn", sans-serif;
+    font-weight:600;
+    font-size:1.02rem;
+    padding:.9rem 1.7rem;
+    border:none;
+    border-radius:999px;
+    cursor:pointer;
+    transition:transform .25s ease, box-shadow .25s ease, background .3s ease;
+    will-change:transform;
+  }
 
-    .dark-mode h1 {
-      color: #f0f0f0;
-    }
+  #celebrateBtn{
+    background:linear-gradient(135deg, var(--rose), var(--wine));
+    color:#fff8ef;
+    box-shadow:0 10px 24px -8px rgba(122,31,61,.55);
+  }
+  #celebrateBtn:hover{ transform:translateY(-3px) scale(1.045); box-shadow:0 14px 28px -8px rgba(122,31,61,.6); }
 
-    .dark-mode p {
-      color: #ccc;
-    }
-  </style>
+  #escapeBtn{
+    background:transparent;
+    color:var(--ink);
+    border:1.5px solid rgba(122,31,61,.35);
+    position:relative;
+    z-index:20;
+    transition:transform .35s cubic-bezier(.2,.9,.25,1.3), background .3s ease;
+  }
+  body.dark-mode #escapeBtn{ color:#f3e6d8; border-color:rgba(230,200,105,.4); }
+  #escapeBtn:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+
+  /* icon toggle for dark mode, moved to a quiet corner */
+  #toggleMode{
+    position:fixed;
+    top:18px;
+    left:18px;
+    z-index:30;
+    background:rgba(255,255,255,.55);
+    border:1px solid rgba(201,162,39,.4);
+    color:var(--wine);
+    width:44px;
+    height:44px;
+    padding:0;
+    border-radius:50%;
+    font-size:1.15rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 6px 16px -8px rgba(0,0,0,.35);
+  }
+  body.dark-mode #toggleMode{
+    background:rgba(40,20,30,.6);
+    color:var(--gold-light);
+    border-color:rgba(230,200,105,.3);
+  }
+  #toggleMode:hover{ transform:scale(1.08); }
+
+  img{
+    max-width:100%;
+    border-radius:16px;
+    margin-top:1.6rem;
+    box-shadow:0 14px 30px -12px rgba(0,0,0,.4);
+  }
+
+  p.reveal{
+    font-size:1.15rem;
+    margin-top:1.1rem;
+    color:var(--wine);
+  }
+  body.dark-mode p.reveal{ color:var(--gold-light); }
+
+  .again-btn{
+    margin-top:1.8rem;
+    background:linear-gradient(135deg, var(--gold), var(--gold-light));
+    color:var(--wine-dark);
+  }
+
+  @media (max-width:480px){
+    .card{ padding:2.4rem 1.4rem 2rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .petal{ animation:none; display:none; }
+    .card{ animation:none; }
+    button{ transition:none; }
+  }
+</style>
 </head>
 <body>
-  <h1>🌹🥲 وارد داستان زندگی من میشی؟</h1>
-  <button id="celebrateBtn">😇🥰 چرا که نه؟</button>
-  <button id="escapeBtn">😒💔 معلومه که نه</button>
-  <button id="toggleMode">🌙 دارک مود</button>
+
+  <button id="toggleMode" aria-label="تغییر تم">🌙</button>
+
+  <div class="card" id="card">
+    <span class="corner tl"><svg viewBox="0 0 64 64"><path d="M2 2c20 0 30 4 34 10 3-8 14-10 26-10-10 6-16 12-18 22-2-10-8-16-18-18-2 10-6 16-14 18C16 16 10 8 2 2z"/></svg></span>
+    <span class="corner tr"><svg viewBox="0 0 64 64"><path d="M2 2c20 0 30 4 34 10 3-8 14-10 26-10-10 6-16 12-18 22-2-10-8-16-18-18-2 10-6 16-14 18C16 16 10 8 2 2z"/></svg></span>
+    <span class="corner bl"><svg viewBox="0 0 64 64"><path d="M2 2c20 0 30 4 34 10 3-8 14-10 26-10-10 6-16 12-18 22-2-10-8-16-18-18-2 10-6 16-14 18C16 16 10 8 2 2z"/></svg></span>
+    <span class="corner br"><svg viewBox="0 0 64 64"><path d="M2 2c20 0 30 4 34 10 3-8 14-10 26-10-10 6-16 12-18 22-2-10-8-16-18-18-2 10-6 16-14 18C16 16 10 8 2 2z"/></svg></span>
+
+    <h1 id="headline">🌹🥲 وارد داستان زندگی من میشی؟</h1>
+
+    <div class="btn-row" id="btnRow">
+      <button id="celebrateBtn">😇🥰 چرا که نه؟</button>
+      <button id="escapeBtn">😒💔 معلومه که نه</button>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
+    const body = document.body;
+    const toggleMode = document.getElementById("toggleMode");
     const escapeBtn = document.getElementById("escapeBtn");
     const celebrateBtn = document.getElementById("celebrateBtn");
-    const toggleMode = document.getElementById("toggleMode");
-    const body = document.body;
+    const card = document.getElementById("card");
+    const btnRow = document.getElementById("btnRow");
 
-    // حالت ذخیره‌شده
+    // ---------- dark mode ----------
     if (localStorage.getItem("mode") === "dark") {
       body.classList.add("dark-mode");
-      toggleMode.textContent = "☀️ لایت مود";
+      toggleMode.textContent = "☀️";
+    }
+    toggleMode.addEventListener("click", () => {
+      const isDark = body.classList.toggle("dark-mode");
+      toggleMode.textContent = isDark ? "☀️" : "🌙";
+      localStorage.setItem("mode", isDark ? "dark" : "light");
+    });
+
+    // ---------- ambient petals ----------
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduceMotion) {
+      const petals = ["🌹","🌸","🥀"];
+      for (let i = 0; i < 10; i++) {
+        const p = document.createElement("span");
+        p.className = "petal";
+        p.textContent = petals[Math.floor(Math.random() * petals.length)];
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.fontSize = (1 + Math.random() * 1.2) + "rem";
+        p.style.animationDuration = (9 + Math.random() * 10) + "s";
+        p.style.animationDelay = (Math.random() * 10) + "s";
+        document.body.appendChild(p);
+      }
     }
 
-    // دکمه فرار برای دسکتاپ و موبایل
+    // ---------- escape button (bug-fixed) ----------
+    // Root cause of the old bug: switching the button from `static` to
+    // `position:absolute` pulled it out of the flex flow, which reflowed
+    // the other buttons under the user's cursor/finger — so a click begun
+    // on one button could land on another. Fix: keep the button in normal
+    // flow and only ever move it with `transform`, which never reflows
+    // anything else. We also stop the synthetic "click" that mobile
+    // browsers fire after touchstart, and keep the fleeing button away
+    // from its neighbour so the two are never stacked.
+
+    let currentX = 0, currentY = 0;
+    let escaping = false;
+
     function moveButton() {
-      const padding = 50;
-      const maxX = window.innerWidth - escapeBtn.offsetWidth - padding;
-      const maxY = window.innerHeight - escapeBtn.offsetHeight - padding;
-      const randomX = Math.floor(Math.random() * maxX);
-      const randomY = Math.floor(Math.random() * maxY);
-      escapeBtn.style.position = "absolute";
-      escapeBtn.style.left = randomX + "px";
-      escapeBtn.style.top = randomY + "px";
+      if (escaping) return;
+      escaping = true;
+
+      const btnRect = escapeBtn.getBoundingClientRect();
+      const otherRect = celebrateBtn.getBoundingClientRect();
+      const pad = 16;
+
+      // reset transform to measure the button's "home" box
+      const homeLeft = btnRect.left - currentX;
+      const homeTop = btnRect.top - currentY;
+
+      const minX = pad - homeLeft;
+      const maxX = window.innerWidth - btnRect.width - pad - homeLeft;
+      const minY = pad - homeTop;
+      const maxY = window.innerHeight - btnRect.height - pad - homeLeft > 0
+        ? window.innerHeight - btnRect.height - pad - homeTop
+        : minY;
+
+      let nextX = currentX, nextY = currentY, tries = 0;
+      do {
+        nextX = minX + Math.random() * Math.max(1, (maxX - minX));
+        nextY = minY + Math.random() * Math.max(1, (maxY - minY));
+        tries++;
+        const proposedLeft = homeLeft + nextX;
+        const proposedTop = homeTop + nextY;
+        const overlaps =
+          proposedLeft < otherRect.right + pad &&
+          proposedLeft + btnRect.width > otherRect.left - pad &&
+          proposedTop < otherRect.bottom + pad &&
+          proposedTop + btnRect.height > otherRect.top - pad;
+        if (!overlaps || tries > 12) break;
+      } while (true);
+
+      currentX = nextX;
+      currentY = nextY;
+      escapeBtn.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
+      window.setTimeout(() => { escaping = false; }, 60);
     }
 
-    escapeBtn.addEventListener("mouseover", moveButton); // دسکتاپ
-    escapeBtn.addEventListener("touchstart", moveButton); // موبایل
+    escapeBtn.addEventListener("mouseenter", moveButton);
 
-    // دکمه جشن
+    escapeBtn.addEventListener("touchstart", (e) => {
+      // prevent the browser's synthetic click that fires after touch,
+      // which used to land on whatever button ended up under the finger
+      e.preventDefault();
+      moveButton();
+    }, { passive: false });
+
+    window.addEventListener("resize", () => {
+      currentX = 0;
+      currentY = 0;
+      escapeBtn.style.transform = "translate(0,0)";
+    });
+
+    // ---------- celebration ----------
     celebrateBtn.addEventListener("click", () => {
       confetti({
-        particleCount: 200,
+        particleCount: 220,
         spread: 100,
+        colors: ["#7a1f3d", "#c9a227", "#e2637d", "#fbf1dd"],
         origin: { y: 0.6 }
       });
 
-      document.body.innerHTML = `
+      card.innerHTML = `
         <h1>😍🔥🥳 داستان هم شدیییم</h1>
-        <img src="dastan2.jpg" alt="آفتابگردون">
-        <p>🥰🫀🌹 داستانمون مبارک</p>
-        <button onclick="location.reload()" style="margin-top:2rem; padding:1rem 2rem; font-size:1rem; border:none; border-radius:12px; background:#007bff; color:white;">🔁 دوباره ببین</button>
+        <img src="dastan2.jpg" alt="آفتابگردون" onerror="this.style.display='none'">
+        <p class="reveal">🥰🫀🌹 داستانمون مبارک</p>
+        <button class="again-btn" onclick="location.reload()">🔁 دوباره ببین</button>
       `;
-      body.className = localStorage.getItem("mode") === "dark" ? "dark-mode" : "";
-    });
-    // دارک مود
-    toggleMode.addEventListener("click", () => {
-      if (body.classList.contains("dark-mode")) {
-        body.classList.remove("dark-mode");
-        toggleMode.textContent = "🌙 دارک مود";
-        localStorage.setItem("mode", "light");
-      } else {
-        body.classList.add("dark-mode");
-        toggleMode.textContent = "☀️ لایت مود";
-        localStorage.setItem("mode", "dark");
-      }
     });
   </script>
 </body>
 </html>
-
-
-
-
